@@ -406,12 +406,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   speed: 5
   jumpForce: 8
+  doubleJumpForce: 11
   groundCheckRadius: 0.2
+  glideGravityScale: 0.5
+  dashSpeed: 12
+  dashDuration: 0.15
+  dashCooldown: 0.6
+  spinAttackTrigger: {fileID: 0}
+  attackDuration: 0.18
+  attackCooldown: 0.5
+  shieldDuration: 0.35
+  shieldCooldown: 1
   groundCheck: {fileID: 684106805}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   rb: {fileID: 0}
+  abilityModule: {fileID: 0}
+  moveAction: {fileID: -4667435718447799512, guid: b7aa4bb0193a89d478c11cb3ba51650d, type: 3}
+  jumpAction: {fileID: -6144250361903848778, guid: b7aa4bb0193a89d478c11cb3ba51650d, type: 3}
+  dashAction: {fileID: -1674524454144631597, guid: b7aa4bb0193a89d478c11cb3ba51650d, type: 3}
+  attackAction: {fileID: -567253691865889538, guid: b7aa4bb0193a89d478c11cb3ba51650d, type: 3}
+  glideAction: {fileID: 8370648237106655612, guid: b7aa4bb0193a89d478c11cb3ba51650d, type: 3}
+  shieldAction: {fileID: -8003862253495011280, guid: b7aa4bb0193a89d478c11cb3ba51650d, type: 3}
 --- !u!70 &634818149
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -715,6 +732,7 @@ GameObject:
   - component: {fileID: 1324412714}
   - component: {fileID: 1324412713}
   - component: {fileID: 1324412712}
+  - component: {fileID: 1324412715}
   m_Layer: 0
   m_Name: Brillo
   m_TagString: Untagged
@@ -811,6 +829,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1324412715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324412711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e0fd13ab10f8e4438fceaf8c36c736d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityModule
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  dashColor: {r: 0.35, g: 0.75, b: 1, a: 1}
+  doubleJumpColor: {r: 0.65, g: 0.45, b: 1, a: 1}
+  attackColor: {r: 1, g: 0.55, b: 0.25, a: 1}
+  shieldColor: {r: 0.35, g: 1, b: 0.8, a: 1}
+  glideColor: {r: 1, g: 1, b: 0.6, a: 1}
+  spriteRenderer: {fileID: 0}
+  currentState: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
