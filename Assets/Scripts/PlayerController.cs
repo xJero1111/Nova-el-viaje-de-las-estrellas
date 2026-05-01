@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 12f;
     [SerializeField] private float doubleJumpForce = 11f;
+    [SerializeField] private float doubleJumpVelocityReset = 0.5f;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private float glideGravityScale = 0.5f;
+    [SerializeField] private float doubleJumpFlashDuration = 0.12f;
 
     [Header("Dash")]
     [SerializeField] private float dashSpeed = 12f;
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Shield")]
     [SerializeField] private float shieldDuration = 0.35f;
-    [SerializeField] private float shieldCooldown = 1.0f;
+    [SerializeField] private float shieldCooldown = 1f;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -168,7 +170,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Movimiento horizontal base
         if (!isShielding)
         {
             Vector2 velocity = rb.linearVelocity;
@@ -176,31 +177,32 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = velocity;
         }
 
-        // Recordar hacia dónde mira Nova
         if (Mathf.Abs(moveInput.x) > 0.01f)
         {
             facingDirection = Mathf.Sign(moveInput.x);
         }
 
-        // Salto normal o doble salto
         if (jumpPressedThisFrame)
         {
             TryJump();
         }
 
-        // Planeo: si está en el aire y mantiene salto o Glide, la gravedad baja
         bool glideHeld = (jumpHeld || (glideAction != null && glideAction.action.IsPressed()));
-        bool canGlide = !isGrounded && !isDashing && !isShielding && abilityModule != null && abilityModule.CanGlide();
-
-        rb.gravityScale = (canGlide && glideHeld) ? glideGravityScale : defaultGravityScale;
+        bool canGlide = abilityModule != null && abilityModule.CanGlide() && !isGrounded && !isDashing && !isAttacking && !isShielding;
 
         if (canGlide && glideHeld)
         {
+            rb.gravityScale = glideGravityScale;
             abilityModule.SetState(AbilityModule.CompanionState.Glide);
         }
-        else if (abilityModule != null && abilityModule.CurrentState == AbilityModule.CompanionState.Glide)
+        else
         {
-            abilityModule.ResetState();
+            rb.gravityScale = defaultGravityScale;
+
+            if (abilityModule != null && abilityModule.CurrentState == AbilityModule.CompanionState.Glide)
+            {
+                abilityModule.ResetState();
+            }
         }
 
         jumpPressedThisFrame = false;
@@ -249,9 +251,11 @@ public class PlayerController : MonoBehaviour
 
         if (abilityModule != null && abilityModule.CanDoubleJump() && !hasDoubleJumped)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, doubleJumpVelocityReset);
             rb.AddForce(Vector2.up * doubleJumpForce, ForceMode2D.Impulse);
             hasDoubleJumped = true;
+
+            abilityModule.FlashState(AbilityModule.CompanionState.DoubleJump, doubleJumpFlashDuration);
         }
     }
 
@@ -271,10 +275,7 @@ public class PlayerController : MonoBehaviour
         dashEndTime = Time.time + dashDuration;
         nextDashTime = Time.time + dashCooldown;
 
-        if (abilityModule != null)
-        {
-            abilityModule.SetState(AbilityModule.CompanionState.Dash);
-        }
+        abilityModule.SetState(AbilityModule.CompanionState.Dash);
     }
 
     private void EndDash()
@@ -309,10 +310,7 @@ public class PlayerController : MonoBehaviour
             spinAttackTrigger.enabled = true;
         }
 
-        if (abilityModule != null)
-        {
-            abilityModule.SetState(AbilityModule.CompanionState.Attack);
-        }
+        abilityModule.SetState(AbilityModule.CompanionState.Attack);
     }
 
     private void EndAttack()
@@ -347,10 +345,7 @@ public class PlayerController : MonoBehaviour
         shieldEndTime = Time.time + shieldDuration;
         nextShieldTime = Time.time + shieldCooldown;
 
-        if (abilityModule != null)
-        {
-            abilityModule.SetState(AbilityModule.CompanionState.Shield);
-        }
+        abilityModule.SetState(AbilityModule.CompanionState.Shield);
     }
 
     private void EndShield()
