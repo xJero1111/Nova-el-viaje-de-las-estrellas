@@ -4,6 +4,12 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    private const string ContinueRequestKey = "NOVA_CONTINUE_REQUEST";
+    private const string SavedPosXKey = "NOVA_SAVED_POS_X";
+    private const string SavedPosYKey = "NOVA_SAVED_POS_Y";
+    private const string SavedPosZKey = "NOVA_SAVED_POS_Z";
+    private const string HasSavedPosKey = "NOVA_HAS_SAVED_POS";
+
     [Header("Movement")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 12f;
@@ -30,6 +36,9 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+
+    [Header("Spawn / Load")]
+    [SerializeField] private Transform spawnPoint; // si no hay Continue, Nova aparece aquí
 
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
@@ -87,6 +96,11 @@ public class PlayerController : MonoBehaviour
         {
             spinAttackTrigger.enabled = false;
         }
+    }
+
+    private void Start()
+    {
+        TryLoadSavedPositionOnStart();
     }
 
     private void OnEnable()
@@ -397,4 +411,50 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool IsInvulnerable => isInvulnerable;
+
+    public void SaveCurrentPosition()
+    {
+        Vector3 pos = transform.position;
+
+        PlayerPrefs.SetFloat(SavedPosXKey, pos.x);
+        PlayerPrefs.SetFloat(SavedPosYKey, pos.y);
+        PlayerPrefs.SetFloat(SavedPosZKey, pos.z);
+        PlayerPrefs.SetInt(HasSavedPosKey, 1);
+        PlayerPrefs.Save();
+    }
+
+    public bool LoadSavedPosition()
+    {
+        if (PlayerPrefs.GetInt(HasSavedPosKey, 0) != 1)
+        {
+            return false;
+        }
+
+        float x = PlayerPrefs.GetFloat(SavedPosXKey, 0f);
+        float y = PlayerPrefs.GetFloat(SavedPosYKey, 0f);
+        float z = PlayerPrefs.GetFloat(SavedPosZKey, 0f);
+
+        transform.position = new Vector3(x, y, z);
+        return true;
+    }
+
+    private void TryLoadSavedPositionOnStart()
+    {
+        bool continueRequested = PlayerPrefs.GetInt(ContinueRequestKey, 0) == 1;
+
+        if (continueRequested && LoadSavedPosition())
+        {
+            PlayerPrefs.SetInt(ContinueRequestKey, 0);
+            PlayerPrefs.Save();
+            return;
+        }
+
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.position;
+        }
+
+        PlayerPrefs.SetInt(ContinueRequestKey, 0);
+        PlayerPrefs.Save();
+    }
 }
