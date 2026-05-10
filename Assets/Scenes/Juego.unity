@@ -833,10 +833,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   velocidad: 2
-  sensorSuelo: {fileID: 0}
+  sensorSuelo: {fileID: 892120934}
   capaSuelo:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   distanciaDeteccion: 0.2
   vidaMaxima: 3
 --- !u!61 &381284008
@@ -2057,8 +2057,8 @@ Transform:
   m_GameObject: {fileID: 892120933}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17, y: -0.34, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.77, y: -0.43, z: 0}
+  m_LocalScale: {x: 1.6007999, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 381284006}

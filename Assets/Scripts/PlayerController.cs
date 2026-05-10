@@ -460,19 +460,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
 {
-    if (collision.gameObject.CompareTag("Enemy"))
+    if (collision.gameObject.CompareTag("Enemy") && !isInvulnerable)
     {
-        if (isInvulnerable)
-        {
-            Debug.Log("¡Ataque bloqueado por el escudo!");
-            // Aquí podrías añadir un pequeño empuje (Knockback) al enemigo
-        }
-        else
-        {
-            Debug.Log("Nova recibió daño");
-            // Aquí restas vida o reinicias al último checkpoint
-        }
+        GetComponent<PlayerHealth>().TakeDamage(1);
+        GetComponent<PlayerKnockback>().ApplyKnockback(collision.transform);
     }
 }
 }
-
