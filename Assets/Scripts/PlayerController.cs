@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
             TryJump();
         }
 
-        bool glideHeld = (jumpHeld || (glideAction != null && glideAction.action.IsPressed()));
+        bool glideHeld = (glideAction != null && glideAction.action.IsPressed());
         bool canGlide = abilityModule != null && abilityModule.CanGlide() && !isGrounded && !isDashing && !isAttacking && !isShielding;
 
         if (canGlide && glideHeld)
@@ -457,4 +457,22 @@ public class PlayerController : MonoBehaviour
         PlayerPrefs.SetInt(ContinueRequestKey, 0);
         PlayerPrefs.Save();
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+        if (isInvulnerable)
+        {
+            Debug.Log("¡Ataque bloqueado por el escudo!");
+            // Aquí podrías añadir un pequeño empuje (Knockback) al enemigo
+        }
+        else
+        {
+            Debug.Log("Nova recibió daño");
+            // Aquí restas vida o reinicias al último checkpoint
+        }
+    }
 }
+}
+
