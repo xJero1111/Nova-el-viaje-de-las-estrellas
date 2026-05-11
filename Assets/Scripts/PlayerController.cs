@@ -578,40 +578,52 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // =========================================================
+   // =========================================================
     // SHIELD
     // =========================================================
 
     private void TryStartShield()
     {
-        if (abilityModule == null || !abilityModule.CanShield())
-        {
-            return;
-        }
+    if (abilityModule == null || !abilityModule.CanShield())
+    {
+        return;
+    }
 
-        if (Time.time < nextShieldTime || isShielding)
-        {
-            return;
-        }
+    if (Time.time < nextShieldTime || isShielding)
+    {
+        return;
+    }
 
-        isShielding = true;
-        isInvulnerable = true;
+    isShielding = true;
+    isInvulnerable = true;
 
-        shieldEndTime = Time.time + shieldDuration;
-        nextShieldTime = Time.time + shieldCooldown;
+    // ACTIVAR ANIMACIÓN DE ESCUDO
+    if (animator != null)
+    {
+        animator.SetBool("isShielding", true);
+    }
 
-        abilityModule.SetState(AbilityModule.CompanionState.Shield);
+    shieldEndTime = Time.time + shieldDuration;
+    nextShieldTime = Time.time + shieldCooldown;
+
+    abilityModule.SetState(AbilityModule.CompanionState.Shield);
     }
 
     private void EndShield()
     {
-        isShielding = false;
-        isInvulnerable = false;
+    isShielding = false;
+    isInvulnerable = false;
 
-        if (abilityModule != null)
-        {
-            abilityModule.ResetState();
-        }
+    // DESACTIVAR ANIMACIÓN DE ESCUDO
+    if (animator != null)
+    {
+        animator.SetBool("isShielding", false);
+    }
+
+    if (abilityModule != null)
+    {
+        abilityModule.ResetState();
+    }
     }
 
     // =========================================================
