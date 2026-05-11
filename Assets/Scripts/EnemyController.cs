@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     public Transform sensorSuelo; // El objeto vacío "Ground Check"
     public LayerMask capaSuelo;   // Selecciona "Ground"
     public float distanciaDeteccion = 0.2f;
+    public float glideGravity = 0.5f;
 
     [Header("Configuración de Vida")]
     public int vidaMaxima = 3;

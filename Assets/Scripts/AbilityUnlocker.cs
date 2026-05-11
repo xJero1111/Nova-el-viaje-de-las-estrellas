@@ -21,10 +21,7 @@ public class AbilityUnlocker : MonoBehaviour
         Collider2D trigger = GetComponent<Collider2D>();
         trigger.isTrigger = true;
 
-        if (abilityModule == null)
-        {
-            abilityModule = FindObjectOfType<AbilityModule>();
-        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
