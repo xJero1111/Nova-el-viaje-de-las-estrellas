@@ -67,4 +67,17 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         onHealthChanged.Invoke(currentHealth);
     }
+
+    public void InstantDie()
+    {
+    // Ignora invulnerabilidad, escudo y salud actual.
+    currentHealth = 0;
+
+    // Actualiza la UI de vida.
+    onHealthChanged.Invoke(currentHealth);
+
+    // Ejecuta el sistema normal de muerte.
+    Die();
+    }
+    
 }
