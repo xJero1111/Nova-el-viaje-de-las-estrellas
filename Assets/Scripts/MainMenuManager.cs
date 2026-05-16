@@ -13,7 +13,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject confirmNewGamePanel;
 
     [Header("Links")]
-    [SerializeField] private string webUrl = "URL_AQUI";
+    [SerializeField] private string webUrl = "https://novaviajeporlasestrellaseafit.github.io/Nova/";
 
     private void Awake()
     {
