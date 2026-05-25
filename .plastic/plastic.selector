@@ -1,0 +1,4 @@
+repository "Nova, el viaje de las estrellas/Nova, el viaje de las estrellas@4674163920421@cloud"
+  path "/"
+    br "/main"
+    co "/main"
