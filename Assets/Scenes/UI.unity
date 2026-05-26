@@ -1250,8 +1250,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0022278, y: 5}
-  m_SizeDelta: {x: 667, y: 385.4}
+  m_AnchoredPosition: {x: -0.000038146973, y: -3.1492}
+  m_SizeDelta: {x: 867.6, y: 391.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1001603594
 MonoBehaviour:
@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8352601546086542920, guid: ae93b8c59fc10c343b52048ae5e20bd8, type: 3}
+  m_Sprite: {fileID: -3715316753140584708, guid: 05d8bfdc52bf6a848b426adb334218b7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2654,7 +2654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nova, el viaje a las estrellas
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
